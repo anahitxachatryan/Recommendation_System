@@ -43,4 +43,5 @@ def create_csv_basedOn_similarity(img_path):
     cos_similarities_df = pd.DataFrame(cosSimilarities, columns=files, index=files)
     return cos_similarities_df
 
-print(create_csv_basedOn_similarity("../Data/styles/"))
+files = read_data("ML/styles")
+print(files)
