@@ -9,9 +9,23 @@ from keras.applications.imagenet_utils import preprocess_input
 from sklearn.metrics.pairwise import cosine_similarity
 
 
+# def read_data(img_path):
+#     # files = os.listdir(img_path)
+#     # print(files)
+#     files = [img_path + x for x in os.listdir(img_path) if 'png' in x]
+#     print()_
+#     return files
+
+
 def read_data(img_path):
-    files = [img_path + x for x in os.listdir(img_path) if 'png' in x]
+    dirs = os.listdir(img_path)
+    files = []
+    for i in dirs:
+        lists = os.listdir(f'{img_path}/{i}')
+        files.append(img_path+lists)
+
     return files
+
 
 
 def create_model():
@@ -43,5 +57,5 @@ def create_csv_basedOn_similarity(img_path):
     cos_similarities_df = pd.DataFrame(cosSimilarities, columns=files, index=files)
     return cos_similarities_df
 
-files = read_data("ML/styles")
+files = read_data("../website/static/Data/")
 print(files)
