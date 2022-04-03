@@ -2,18 +2,20 @@ import pandas as pd
 from flask import Blueprint, render_template
 
 from Helpers import helpers
-from ML import data_processing
+
 
 
 views = Blueprint('views', __name__, template_folder='templates')
 
 @views.route('/')
 def home():
+    # website/static/Data
     # files = data_processing.read_data("website/static/Data")
     # cos_similarities_df = pd.read_csv('ML/cos_similarities.csv')
     # cos_similarities_df = cos_similarities_df.set_index('Unnamed: 0')
     # list_imgs = data_processing.retrieve_most_similar_products(cos_similarities_df,files[0])
     # print(list_imgs)
+    
     return render_template("Home.html")
 
 

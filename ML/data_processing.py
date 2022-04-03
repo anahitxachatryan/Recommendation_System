@@ -10,13 +10,14 @@ from keras.preprocessing.image import load_img,img_to_array
 from keras.applications.imagenet_utils import preprocess_input
 from sklearn.metrics.pairwise import cosine_similarity
 
-import matplotlib.pyplot as plt
 
 def read_data(img_path):
+    if os.path.exists(f"{img_path}/.DS_Store"):
+        os.remove(f"{img_path}/.DS_Store") 
     dirs = os.listdir(img_path)
-
+    
     files = []
-    for dir in dirs:
+    for dir in dirs:            
         fullDir = f'{img_path}/{dir}/'
         foundImgs = [fullDir + x for x in os.listdir(fullDir) if 'png' in x]
         files.append(foundImgs)
@@ -51,8 +52,11 @@ def extract_features(processed_imgs, feat_extractor):
 
 def create_csv_based_on_similarity(imgs_features,files):
     cosSimilarities = cosine_similarity(imgs_features)
-    cos_similarities_df = pd.DataFrame(cosSimilarities, columns=files, index=files)
-    return cos_similarities_df
+    files = [x[3:] for x in files]
+    print(files)
+    return files
+    # cos_similarities_df = pd.DataFrame(cosSimilarities, columns=files, index=files)
+    # return cos_similarities_df
 
 
 
@@ -75,9 +79,14 @@ def retrain_model():
     processed_imgs = process_all_imgs(files)
     imgs_features = extract_features(processed_imgs, feat_extractor)
     cos_similarities_df = create_csv_based_on_similarity(imgs_features,files)
-    cos_similarities_df.to_csv('cos_similarities.csv')
+    # cos_similarities_df.to_csv('cos_similarities.csv')
+
 
 retrain_model()
+# create_model()
+
+
+
 
 
 
