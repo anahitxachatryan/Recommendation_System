@@ -12,12 +12,13 @@ def home():
     files = read_data("website/static/Data")
     cos_similarities_df = pd.read_csv('ML/cos_similarities.csv')
     cos_similarities_df = cos_similarities_df.set_index('Unnamed: 0')
-    img_list = rmsp(cos_similarities_df,f'{files[1]}')
+    img_list = rmsp(cos_similarities_df,f'{files[409]}')
     return render_template(
         "Home.html",
         img_list0=f'../{img_list[0][8:]}',
         img_list1=f'../{img_list[1][8:]}',
-        img_list2=f'../{img_list[2][8:]}')
+        img_list2=f'../{img_list[2][8:]}',
+        products = f'../{files[409][8:]}')
 
 
 @views.route('/catalog')
