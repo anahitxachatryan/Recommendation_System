@@ -2,21 +2,22 @@ import pandas as pd
 from flask import Blueprint, render_template
 
 from Helpers import helpers
-
-
+from ML.data_processing import retrieve_most_similar_products as rmsp
+from ML.data_processing import read_data
 
 views = Blueprint('views', __name__, template_folder='templates')
 
 @views.route('/')
 def home():
-    # website/static/Data
-    # files = data_processing.read_data("website/static/Data")
-    # cos_similarities_df = pd.read_csv('ML/cos_similarities.csv')
-    # cos_similarities_df = cos_similarities_df.set_index('Unnamed: 0')
-    # list_imgs = data_processing.retrieve_most_similar_products(cos_similarities_df,files[0])
-    # print(list_imgs)
-    
-    return render_template("Home.html")
+    files = read_data("website/static/Data")
+    cos_similarities_df = pd.read_csv('ML/cos_similarities.csv')
+    cos_similarities_df = cos_similarities_df.set_index('Unnamed: 0')
+    img_list = rmsp(cos_similarities_df,f'{files[1]}')
+    return render_template(
+        "Home.html",
+        img_list0=f'../{img_list[0][8:]}',
+        img_list1=f'../{img_list[1][8:]}',
+        img_list2=f'../{img_list[2][8:]}')
 
 
 @views.route('/catalog')

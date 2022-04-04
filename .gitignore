@@ -134,3 +134,4 @@ venv
 website/static/Data/.DS_Store
 website/__pycache__
 ML/__pycache__
+ML/model

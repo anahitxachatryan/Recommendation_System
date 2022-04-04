@@ -13,11 +13,11 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 def read_data(img_path):
     if os.path.exists(f"{img_path}/.DS_Store"):
-        os.remove(f"{img_path}/.DS_Store") 
+        os.remove(f"{img_path}/.DS_Store")
     dirs = os.listdir(img_path)
-    
+
     files = []
-    for dir in dirs:            
+    for dir in dirs:
         fullDir = f'{img_path}/{dir}/'
         foundImgs = [fullDir + x for x in os.listdir(fullDir) if 'png' in x]
         files.append(foundImgs)
@@ -53,42 +53,29 @@ def extract_features(processed_imgs, feat_extractor):
 def create_csv_based_on_similarity(imgs_features,files):
     cosSimilarities = cosine_similarity(imgs_features)
     files = [x[3:] for x in files]
-    print(files)
-    return files
-    # cos_similarities_df = pd.DataFrame(cosSimilarities, columns=files, index=files)
-    # return cos_similarities_df
+    cos_similarities_df = pd.DataFrame(cosSimilarities, columns=files, index=files)
+   
+    return cos_similarities_df
 
 
 
 def retrieve_most_similar_products(cos_similarities_df,given_img,imgs_model_width=224,imgs_model_height=224,nb_closest_images=3):
-    img_list = []
-    original = load_img(given_img, target_size=(224, 224))
     closest_imgs = cos_similarities_df[given_img].sort_values(ascending=False)[1:nb_closest_images+1].index
     closest_imgs_scores = cos_similarities_df[given_img].sort_values(ascending=False)[1:nb_closest_images+1]
 
-
-    for i in range(0,len(closest_imgs)):
-        similar = load_img(closest_imgs[i], target_size=(imgs_model_width, imgs_model_height))
-        img_list.append(similar)
-    return img_list
+    return closest_imgs
 
 
-def retrain_model():
+
+def load_predict():
     files = read_data("../website/static/Data")
     feat_extractor = keras.models.load_model('model')
     processed_imgs = process_all_imgs(files)
     imgs_features = extract_features(processed_imgs, feat_extractor)
     cos_similarities_df = create_csv_based_on_similarity(imgs_features,files)
-    # cos_similarities_df.to_csv('cos_similarities.csv')
-
-
-retrain_model()
-# create_model()
+    cos_similarities_df.to_csv('cos_similarities.csv')
 
 
 
-
-
-
-
+# load_predict()
 
