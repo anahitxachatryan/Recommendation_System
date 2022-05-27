@@ -13,24 +13,37 @@ def home():
     cos_similarities_df = pd.read_csv('ML/cos_similarities.csv')
     cos_similarities_df = cos_similarities_df.set_index('Unnamed: 0')
     img_list = rmsp(cos_similarities_df,f'{files[409]}')
+
     return render_template(
         "Home.html",
-        img_list0=f'../{img_list[0][8:]}',
-        img_list1=f'../{img_list[1][8:]}',
-        img_list2=f'../{img_list[2][8:]}',
-        products = f'../{files[409][8:]}')
+        img_list = list(img_list),
+        products = files[409])
+    
+    
+@views.route('/<prod_category>/<prod_name>')
+def view_prod(prod_category, prod_name):
+    cos_similarities_df = pd.read_csv('ML/cos_similarities.csv')
+    cos_similarities_df = cos_similarities_df.set_index('Unnamed: 0')
+    path = f'website/static/Data/{prod_category}/{prod_name}'
 
+    img_list = rmsp(cos_similarities_df,f'{path}')
+    return render_template(
+        "Home.html",
+        img_list = img_list,
+        products = path)
+    
+    
 
 @views.route('/catalog')
 def catalog():
-    randomChoice0 = helpers.catalog_items('jewellery')
-    randomChoice1 = helpers.catalog_items('bags')
-    randomChoice2 = helpers.catalog_items('cosmetics')
+    item_list =['jewellery','bags','cosmetics']
+    randomChoice = []
+    for i in range(3):
+        randomChoice.append(helpers.catalog_items(item_list[i])[0])
+
     return render_template(
                             "Catalog.html",
-                           randomChoice0=randomChoice0[0],
-                           randomChoice1=randomChoice1[0],
-                           randomChoice2=randomChoice2[0])
+                           randomChoice = randomChoice)
 
 
 @views.route('/jewellery')
@@ -38,9 +51,7 @@ def jewellery():
     randomChoice = helpers.catalog_items('jewellery')
     return render_template(
                             "Catalog.html",
-                           randomChoice0=randomChoice[0],
-                           randomChoice1=randomChoice[1],
-                           randomChoice2=randomChoice[2])
+                           randomChoice = randomChoice)
 
 
 @views.route('/bags')
@@ -48,18 +59,14 @@ def bags():
     randomChoice = helpers.catalog_items('bags')
     return render_template(
                             "Catalog.html",
-                           randomChoice0=randomChoice[0],
-                           randomChoice1=randomChoice[1],
-                           randomChoice2=randomChoice[2])
+                           randomChoice = randomChoice)
 
 @views.route('/cosmetics')
 def cosmetics():
     randomChoice = helpers.catalog_items('cosmetics')
     return render_template(
                             "Catalog.html",
-                           randomChoice0=randomChoice[0],
-                           randomChoice1=randomChoice[1],
-                           randomChoice2=randomChoice[2])
+                           randomChoice = randomChoice)
 
 
 @views.route('/shoes')
@@ -67,6 +74,4 @@ def shoes():
     randomChoice = helpers.catalog_items('shoes')
     return render_template(
                             "Catalog.html",
-                           randomChoice0=randomChoice[0],
-                           randomChoice1=randomChoice[1],
-                           randomChoice2=randomChoice[2])
+                           randomChoice = randomChoice)

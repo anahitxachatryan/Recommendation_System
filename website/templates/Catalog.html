@@ -34,24 +34,14 @@
         <h3 class="u-text u-text-default u-text-1">Products</h3>
         <div class="u-expanded-width u-list u-list-1">
           <div class="u-repeater u-repeater-1">
+            {% for i in range(3):%}
             <div class="u-container-style u-list-item u-repeater-item">
               <div class="u-container-layout u-similar-container u-container-layout-1">
-                <img alt="" class="u-expanded-width u-image u-image-default u-image-1" data-image-width="2000" data-image-height="1333" src={{randomChoice0}}>
-                <a href="#" class="u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-hover-white u-btn-1">View</a>
+                <img alt="" class="u-expanded-width u-image u-image-default u-image-1" data-image-width="2000" data-image-height="1333" src={{randomChoice[i]}}>
+                <a href="/{{randomChoice[i].split("/")[-2]}}/{{randomChoice[i].split("/")[-1]}}" class="u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-hover-white u-btn-1">View</a>
               </div>
             </div>
-            <div class="u-container-style u-list-item u-repeater-item">
-              <div class="u-container-layout u-similar-container u-container-layout-2">
-                <img alt="" class="u-expanded-width u-image u-image-default u-image-2" data-image-width="2000" data-image-height="1333" src={{randomChoice1}}>
-                <a href="#" class="u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-hover-white u-btn-2">View</a>
-              </div>
-            </div>
-            <div class="u-container-style u-list-item u-repeater-item">
-              <div class="u-container-layout u-similar-container u-container-layout-3">
-                <img alt="" class="u-expanded-width u-image u-image-default u-image-3" data-image-width="2000" data-image-height="1333" src={{randomChoice2}}>
-                <a href="#" class="u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-hover-white u-btn-3">View</a>
-              </div>
-            </div>
+            {%endfor%}
           </div>
         </div>
       </div>
